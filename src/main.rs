@@ -1,3 +1,9 @@
+use clap::Parser;
+use cli::CliOpts;
+
+mod cli;
+
 fn main() {
-    println!("Hello, world!");
+    let cli_opts = CliOpts::parse();
+    println!("{:?}", cli_opts)
 }
