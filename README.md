@@ -30,7 +30,7 @@ Options:
 ## About
 
 ### Authors
-* Keito Fukuoka ([K8](https://github.com/K8))
+* Keito Fukuoka ([Rx-K8](https://github.com/Rx-K8))
 
 ### The Logo
 ![logo](site/assets/logo.jpeg)
