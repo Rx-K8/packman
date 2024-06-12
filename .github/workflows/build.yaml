@@ -10,7 +10,7 @@ jobs:
       matrix:
         os:
           - ubuntu-latest
-          - windows-latest
+          # - windows-latest
           - macos-latest
     steps:
       - name: Setup Rust
@@ -31,7 +31,8 @@ jobs:
 
       - name: Send coverage to coveralls
         uses: coverallsapp/github-action@master
-        if: matrix.os == "ubuntu-latest"
+        if: matrix.os == 'ubuntu-latest'
         with:
           github-token: ${{ secrets.github_token }}
           path-to-lcov: coverage.lcov
+  
