@@ -4,6 +4,7 @@ use cli::CliOpts;
 mod cli;
 
 fn main() {
-    let cli_opts = CliOpts::parse();
+    let mut cli_opts = CliOpts::parse();
+    let _mode = cli_opts.run_mode();
     println!("{:?}", cli_opts)
 }
