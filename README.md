@@ -1,4 +1,7 @@
 # packman
+
+[![Coverage Status](https://coveralls.io/repos/github/Rx-K8/packman/badge.svg?branch=develop)](https://coveralls.io/github/Rx-K8/packman?branch=develop)
+
 A tool for archiving files and directories and extracting several archive formats.
 
 ## Description
