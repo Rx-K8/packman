@@ -1,10 +1,7 @@
-use clap::Parser;
-use cli::CliOpts;
-
+mod archiver;
+mod format;
 mod cli;
 
 fn main() {
-    let mut cli_opts = CliOpts::parse();
-    let _mode = cli_opts.run_mode();
-    println!("{:?}", cli_opts)
+    println!("Hello, world!")
 }

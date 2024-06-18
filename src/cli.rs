@@ -90,6 +90,8 @@ pub enum Mode {
 #[derive(Debug)]
 pub enum PackmanError {
     NoGivenArguments,
+    FileExists(PathBuf),
+    IOError(std::io::Error),
 }
 
 #[cfg(test)]
