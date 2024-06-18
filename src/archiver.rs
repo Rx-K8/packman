@@ -1,13 +1,12 @@
-use crate::cli::{CliOpts, Result, PackmanError};
+use crate::cli::{CliOpts, PackmanError, Result};
 use crate::format::Format;
-use ::zip::result::ZipResult;
-use std::path::PathBuf;
 use std::fs::{create_dir_all, File};
+use std::path::PathBuf;
 
 mod zip;
 
 pub trait Archiver {
-    fn execute(&self, archive_opts: &ArchiverOpts) -> ZipResult<()>;
+    fn execute(&self, archive_opts: &ArchiverOpts) -> Result<()>;
     fn format(&self) -> Format;
 }
 
@@ -28,6 +27,24 @@ impl ArchiverOpts {
             recursive: opts.overwrite,
             overwrite: opts.recursive,
         }
+    }
+
+    pub fn create(
+        output: PathBuf,
+        targets: Vec<PathBuf>,
+        recursive: bool,
+        overwrite: bool,
+    ) -> Self {
+        ArchiverOpts {
+            output,
+            targets,
+            recursive,
+            overwrite,
+        }
+    }
+
+    pub fn targets(&self) -> Vec<PathBuf> {
+        self.targets.clone()
     }
 
     pub fn destination(&self) -> Result<File> {

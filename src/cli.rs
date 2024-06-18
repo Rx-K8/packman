@@ -92,6 +92,7 @@ pub enum PackmanError {
     NoGivenArguments,
     FileExists(PathBuf),
     IOError(std::io::Error),
+    ArchiverError(String),
 }
 
 #[cfg(test)]

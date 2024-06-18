@@ -1,4 +1,4 @@
-#[derive(Debug)]
+#[derive(Debug, PartialEq)]
 pub enum Format {
     Zip,
     Tar,
@@ -11,4 +11,3 @@ pub enum Format {
     Rar,
     Unknown(String),
 }
-
