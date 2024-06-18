@@ -56,7 +56,7 @@ fn process_dir<W: Write + Seek>(zw: &mut ZipWriter<W>, target: PathBuf) -> Resul
 }
 
 fn create_file(target: &PathBuf) -> Result<File> {
-    match File::create(&target) {
+    match File::open(&target) {
         Ok(file) => Ok(file),
         Err(e) => Err(PackmanError::IOError(e)),
     }
