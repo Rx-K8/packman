@@ -1,5 +1,7 @@
+use zip::ZipArchiver;
+
 use crate::cli::{CliOpts, PackmanError, Result};
-use crate::format::Format;
+use crate::format::{find_format, Format};
 use std::fs::{create_dir_all, File};
 use std::path::PathBuf;
 
@@ -8,6 +10,15 @@ mod zip;
 pub trait Archiver {
     fn execute(&self, archive_opts: &ArchiverOpts) -> Result<()>;
     fn format(&self) -> Format;
+}
+
+pub fn create_archiver(dest: &PathBuf) -> Result<Box<dyn Archiver>> {
+    let format = find_format(dest.file_name());
+    match format {
+        Ok(format) => Ok(Box::new(ZipArchiver {})),
+
+        Err(msg) => Err(msg),
+    }
 }
 
 pub struct ArchiverOpts {

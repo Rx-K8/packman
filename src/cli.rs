@@ -49,7 +49,7 @@ pub struct CliOpts {
 impl CliOpts {
     pub fn run_mode(&mut self) -> Result<Mode> {
         if self.args.len() == 0 {
-            return Err(PackmanError::NoGivenArguments);
+            return Err(PackmanError::NoArgumentsGiven);
         }
 
         if self.mode == Mode::Auto {
@@ -89,10 +89,13 @@ pub enum Mode {
 
 #[derive(Debug)]
 pub enum PackmanError {
-    NoGivenArguments,
+    NoArgumentsGiven,
     FileExists(PathBuf),
     IOError(std::io::Error),
+    FileNotFound(PathBuf),
     ArchiverError(String),
+    UnknownError(String),
+    SomeError(Box<dyn std::error::Error>)
 }
 
 #[cfg(test)]
