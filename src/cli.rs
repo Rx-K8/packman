@@ -94,6 +94,7 @@ pub enum PackmanError {
     ArchiverError(String),
     FileExists(PathBuf),
     IOError(std::io::Error),
+    ExtractorError(String),
 }
 
 #[cfg(test)]

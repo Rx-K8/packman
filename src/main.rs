@@ -5,6 +5,7 @@ use cli::{CliOpts, Mode, PackmanError, Result};
 mod archiver;
 mod cli;
 mod format;
+mod extractor;
 
 fn execute(opts: &mut CliOpts) -> Result<()> {
     match opts.run_mode() {
@@ -41,6 +42,7 @@ fn main() -> Result<()> {
                 }
                 PackmanError::IOError(e) => println!("IO error: {}", e),
                 PackmanError::ArchiverError(s) => println!("Archive error: {}", s),
+                PackmanError::ExtractorError(s) => println!("Extractor error: {}", s),
             }
             std::process::exit(1);
         }

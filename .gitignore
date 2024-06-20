@@ -187,3 +187,4 @@ Cargo.lock
 
 # Custom ignore
 /results
+/testdata
