@@ -24,6 +24,7 @@ Options:
   -m, --mode <MODE>         Mode of operation. [default: auto] [possible values: auto, archive, extract, list]
   -o, --output <DEST>       Output file in archive mode, or output directory in extraction mode
   -r, --recursive           Recurse into directories (archive mode).
+  -p, --passward            encrypt
       --overwrite           Overwrite existing files.
   -h, --help                Print help
   -V, --version             Print version
