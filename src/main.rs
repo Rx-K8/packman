@@ -1,15 +1,17 @@
 use archiver::ArchiverOpts;
 use clap::Parser;
 use cli::{CliOpts, Mode, PackmanError, Result};
+use extractor::{create_extractor, ExtractorOpts};
 
 mod archiver;
 mod cli;
-mod format;
 mod extractor;
+mod format;
 
 fn execute(opts: &mut CliOpts) -> Result<()> {
     match opts.run_mode() {
         Ok(Mode::Archive) => return execute_archive(&opts),
+        Ok(Mode::Extract) => return execute_extract(&opts),
         _ => return Ok(()),
     }
 }
@@ -23,6 +25,17 @@ fn execute_archive(opts: &CliOpts) -> Result<()> {
         Ok(archiver) => archiver.execute(archiver_opts),
         Err(e) => Err(e),
     }
+}
+
+fn execute_extract(opts: &CliOpts) -> Result<()> {
+    let extractor_opts = ExtractorOpts::new(&opts);
+    for target in &opts.args {
+        match create_extractor(target) {
+            Ok(extractor) => extractor.execute(target.clone(), &extractor_opts)?,
+            Err(e) => return Err(e),
+        }
+    }
+    Ok(())
 }
 
 fn main() -> Result<()> {
