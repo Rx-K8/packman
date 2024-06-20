@@ -10,15 +10,13 @@ use zip::write::ZipWriter;
 use crate::archiver::{Archiver, ArchiverOpts, Format};
 use crate::cli::PackmanError;
 
-pub(super) struct ZipArchiver {
-
-}
+pub(super) struct ZipArchiver {}
 
 impl Archiver for ZipArchiver {
     fn execute(&self, archiver_opts: &ArchiverOpts) -> Result<()> {
         match archiver_opts.destination() {
             Err(e) => Err(e),
-            Ok(file) => write_zip(file, archiver_opts.targets(), archiver_opts.recursive),
+            Ok(file) => write_zip(file, archiver_opts.targets.clone(), archiver_opts.recursive),
         }
     }
 
@@ -30,7 +28,7 @@ impl Archiver for ZipArchiver {
 fn write_zip(file: File, targets: Vec<PathBuf>, recursive: bool) -> Result<()> {
     let mut zw = ZipWriter::new(file);
     for target in targets {
-        if target.is_dir() &&  recursive{
+        if target.is_dir() && recursive {
             process_dir(&mut zw, target.clone())?;
         } else {
             process_file(&mut zw, target.clone())?;
@@ -101,13 +99,13 @@ mod tests {
     fn test_zip() {
         run_test(|| {
             let archiver = ZipArchiver {};
-            let inout = ArchiverOpts::create(
-                PathBuf::from("results/test.zip"),
-                vec![PathBuf::from("src"), PathBuf::from("Cargo.toml")],
-                true,
-                true,
-            );
-            let result = archiver.execute(&inout);
+            let opts = ArchiverOpts {
+                dest: PathBuf::from("results/test.zip"),
+                targets: vec![PathBuf::from("src"), PathBuf::from("Cargo.toml")],
+                recursive: true,
+                overwrite: true,
+            };
+            let result = archiver.execute(&opts);
             assert!(result.is_ok());
             assert_eq!(archiver.format(), Format::Zip);
         });

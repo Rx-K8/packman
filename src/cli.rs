@@ -90,11 +90,10 @@ pub enum Mode {
 #[derive(Debug)]
 pub enum PackmanError {
     NoArgumentsGiven,
+    ArchiverError(String),
     FileExists(PathBuf),
     IOError(std::io::Error),
-    FileNotFound(PathBuf),
-    ArchiverError(String),
-    UnknownError(String),
+    Unknown(String),
     SomeError(Box<dyn std::error::Error>)
 }
 
@@ -107,22 +106,22 @@ mod tests {
 
     #[test]
     fn test_find_mode() {
-        let mut cli1 = CliOpts::parse_from(&["totebag_test", "src", "LICENSE", "README.md", "Cargo.toml"]);
+        let mut cli1 = CliOpts::parse_from(&["packman_test", "src", "LICENSE", "README.md", "Cargo.toml"]);
         let r1 = cli1.run_mode();
         assert!(r1.is_ok());
         assert_eq!(r1.unwrap(), Mode::Archive);
 
-        let mut cli2 = CliOpts::parse_from(&["totebag_test", "src", "LICENSE", "README.md", "hoge.zip"]);
+        let mut cli2 = CliOpts::parse_from(&["packman_test", "src", "LICENSE", "README.md", "hoge.zip"]);
         let r2 = cli2.run_mode();
         assert!(r2.is_ok());
         assert_eq!(cli2.run_mode().unwrap(), Mode::Archive);
 
-        let mut cli3 = CliOpts::parse_from(&["totebag_test", "src.zip", "LICENSE.tar", "README.tar.bz2", "hoge.rar"]);
+        let mut cli3 = CliOpts::parse_from(&["packman_test", "src.zip", "LICENSE.tar", "README.tar.bz2", "hoge.rar"]);
         let r3 = cli3.run_mode();
         assert!(r3.is_ok());
         assert_eq!(cli3.run_mode().unwrap(), Mode::Extract);
 
-        let mut cli4 = CliOpts::parse_from(&["totebag_test", "src.zip", "LICENSE.tar", "README.tar.bz2", "hoge.rar", "--mode", "list"]);
+        let mut cli4 = CliOpts::parse_from(&["packman_test", "src.zip", "LICENSE.tar", "README.tar.bz2", "hoge.rar", "--mode", "list"]);
         let r4 = cli3.run_mode();
         assert!(r4.is_ok());
         assert_eq!(cli4.run_mode().unwrap(), Mode::List);
