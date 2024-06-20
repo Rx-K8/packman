@@ -26,6 +26,7 @@ impl Extractor for ZipExtractor {
         }
         Ok(())
     }
+
     fn format(&self) -> Format {
         Format::Zip
     }
