@@ -50,6 +50,15 @@ impl ArchiverOpts {
             Err(e) => Err(PackmanError::IOError(e)),
         }
     }
+
+    pub fn exit_paths(&self) -> Result<()> {
+        for path in &self.targets {
+            if !path.exists() {
+                return Err(PackmanError::ArgumentsPathNotFound);
+            }
+        }
+        Ok(())
+    }
 }
 
 pub fn create_archiver(dest: &PathBuf) -> Result<Box<dyn Archiver>> {

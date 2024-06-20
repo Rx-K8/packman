@@ -15,6 +15,9 @@ fn execute(opts: &mut CliOpts) -> Result<()> {
 
 fn execute_archive(opts: &CliOpts) -> Result<()> {
     let archiver_opts = ArchiverOpts::new(&opts);
+    if let Err(e) = archiver_opts.exit_paths() {
+        return Err(e);
+    }
     match archiver::create_archiver(&opts.output.clone().unwrap()) {
         Ok(archiver) => archiver.execute(archiver_opts),
         Err(e) => Err(e),
@@ -29,6 +32,9 @@ fn main() -> Result<()> {
             match e {
                 PackmanError::NoArgumentsGiven => {
                     println!("No arguments given. Use --help for usage.")
+                }
+                PackmanError::ArgumentsPathNotFound => {
+                    println!("One or more arguments are not valid paths.")
                 }
                 PackmanError::FileExists(p) => {
                     println!("{}: file already exists", p.to_str().unwrap())
