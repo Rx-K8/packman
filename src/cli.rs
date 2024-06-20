@@ -93,8 +93,6 @@ pub enum PackmanError {
     ArchiverError(String),
     FileExists(PathBuf),
     IOError(std::io::Error),
-    Unknown(String),
-    SomeError(Box<dyn std::error::Error>)
 }
 
 #[cfg(test)]

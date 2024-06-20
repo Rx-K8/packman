@@ -13,7 +13,7 @@ use crate::cli::PackmanError;
 pub(super) struct ZipArchiver {}
 
 impl Archiver for ZipArchiver {
-    fn execute(&self, archiver_opts: &ArchiverOpts) -> Result<()> {
+    fn execute(&self, archiver_opts: ArchiverOpts) -> Result<()> {
         match archiver_opts.destination() {
             Err(e) => Err(e),
             Ok(file) => write_zip(file, archiver_opts.targets.clone(), archiver_opts.recursive),
@@ -105,7 +105,7 @@ mod tests {
                 recursive: true,
                 overwrite: true,
             };
-            let result = archiver.execute(&opts);
+            let result = archiver.execute(opts);
             assert!(result.is_ok());
             assert_eq!(archiver.format(), Format::Zip);
         });

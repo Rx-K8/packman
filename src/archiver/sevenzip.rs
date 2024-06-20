@@ -9,7 +9,7 @@ use sevenz_rust::{SevenZArchiveEntry, SevenZWriter};
 pub(super) struct SevenZipArchiver {}
 
 impl Archiver for SevenZipArchiver {
-    fn execute(&self, opts: &ArchiverOpts) -> Result<()> {
+    fn execute(&self, opts: ArchiverOpts) -> Result<()> {
         match opts.destination() {
             Ok(dest) => write_sevenzip(dest, opts.targets.clone(), opts.recursive),
             Err(e) => Err(e),
@@ -91,7 +91,7 @@ mod tests {
                 recursive: true,
                 overwrite: true,
             };
-            let result = archiver.execute(&opts);
+            let result = archiver.execute(opts);
             assert!(result.is_ok());
         });
     }

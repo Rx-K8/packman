@@ -1,6 +1,7 @@
 use crate::cli::CliOpts;
 use crate::cli::PackmanError;
 use crate::cli::Result;
+use crate::format::find_format;
 use crate::format::Format;
 use std::fs::create_dir_all;
 use std::fs::File;
@@ -10,7 +11,7 @@ mod sevenzip;
 mod zip;
 
 pub trait Archiver {
-    fn execute(&self, opts: &ArchiverOpts) -> Result<()>;
+    fn execute(&self, opts: ArchiverOpts) -> Result<()>;
     fn format(&self) -> Format;
 }
 
@@ -48,5 +49,13 @@ impl ArchiverOpts {
             Ok(file) => Ok(file),
             Err(e) => Err(PackmanError::IOError(e)),
         }
+    }
+}
+
+pub fn create_archiver(dest: &PathBuf) -> Result<Box<dyn Archiver>> {
+    match find_format(dest) {
+        Ok(Format::SevenZip) => Ok(Box::new(sevenzip::SevenZipArchiver {})),
+        Ok(Format::Zip) => Ok(Box::new(zip::ZipArchiver {})),
+        Err(e) => Err(e),
     }
 }
